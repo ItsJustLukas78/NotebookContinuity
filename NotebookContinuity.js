@@ -84,7 +84,7 @@ function labelPageRange() {
     console.log(firstPageId);
     const firstPageNumber = getPageNumber(firstPageId); 
     console.log(firstPageNumber);
-    if (pages.length > 1) {
+    if (pages.length > 0) {
       for (let i = 0; i < pages.length; i++) {
         const currentPageNumber = firstPageNumber + i
 
@@ -108,8 +108,11 @@ function labelPageRange() {
           parsedContOn['width'],
           parsedContOn['height']
           );
-          
-        if (i == 0) {
+
+        if (pages.length == 1) {
+          contFromObj.getText().setText("(Continued from page —)");
+          contOnObj.getText().setText("(Continued on page —)");
+        } else if (i == 0) {
           contFromObj.getText().setText("(Continued from page —)");
           contOnObj.getText().setText("(Continued on page " + (currentPageNumber + 1).toString() + ")");
         } else if (i == (pages.length - 1)) {
@@ -134,6 +137,12 @@ function labelPageRange() {
         } else if (parsedContFrom['colorType'] == 'THEME') {
           contFromObj.getText().getTextStyle().setForegroundColor( SlidesApp.ThemeColorType[parsedContFrom['color']] );
         }
+
+        if (parsedContOn['colorType'] == 'RGB') {
+          contOnObj.getText().getTextStyle().setForegroundColor(parsedContFrom['color']);
+        } else if (parsedContOn['colorType'] == 'THEME') {
+          contOnObj.getText().getTextStyle().setForegroundColor( SlidesApp.ThemeColorType[parsedContFrom['color']] );
+        }
       }
     }
   }
@@ -148,3 +157,4 @@ function getPageNumber(page_id) {
     }
   }
 }
+
